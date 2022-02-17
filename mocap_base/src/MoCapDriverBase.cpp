@@ -138,6 +138,8 @@ void Subject::processNewMeasurement(
   vel_cov.bottomRightCorner<3, 3>() = kFilter.state_cov.block<3, 3>(6, 6);
 
   pub_filter.publish(odom_filter);
+
+  odom_filter.child_frame_id = name;
   pub_global.publish(odom_filter);
 
   return;
