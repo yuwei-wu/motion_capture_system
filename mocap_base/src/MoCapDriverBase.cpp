@@ -32,7 +32,6 @@ Subject::Subject(ros::NodeHandle* nptr, const string& sub_name,
   parent_frame (p_frame){
 
   pub_filter = nh_ptr->advertise<nav_msgs::Odometry>(name+"/odom", 10);
-  pub_global = nh_ptr->advertise<nav_msgs::Odometry>("all_obs_odom", 10);
   pub_raw = nh_ptr->advertise<geometry_msgs::PoseStamped>(name+"/pose", 10);
   return;
 }
@@ -138,9 +137,6 @@ void Subject::processNewMeasurement(
   vel_cov.bottomRightCorner<3, 3>() = kFilter.state_cov.block<3, 3>(6, 6);
 
   pub_filter.publish(odom_filter);
-
-  odom_filter.child_frame_id = name;
-  pub_global.publish(odom_filter);
 
   return;
 }
